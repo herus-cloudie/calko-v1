@@ -1,0 +1,20 @@
+export const FONTS = {
+    black: require("../assets/font/BoldPeyda.ttf"),
+    blackItalic: require("../assets/font/BoldPeyda.ttf"),
+    bold: require("../assets/font/BoldPeyda.ttf"),
+    boldItalic: require("../assets/font/BoldPeyda.ttf"),
+    extraBold: require("../assets/font/BoldPeyda.ttf"),
+    extraBoldItalic: require("../assets/font/BoldPeyda.ttf"),
+    extraLight: require("../assets/font/RegularPeyda.ttf"),
+    extraLightItalic: require("../assets/font/RegularPeyda.ttf"),
+    italic: require("../assets/font/RegularPeyda.ttf"),
+    light: require("../assets/font/RegularPeyda.ttf"),
+    lightItalic: require("../assets/font/RegularPeyda.ttf"),
+    medium: require("../assets/font/RegularPeyda.ttf"),
+    mediumItalic: require("../assets/font/RegularPeyda.ttf"),
+    regular: require("../assets/font/RegularPeyda.ttf"),
+    semiBold: require("../assets/font/RegularPeyda.ttf"),
+    semiBoldItalic: require("../assets/font/RegularPeyda.ttf"),
+    thin: require("../assets/font/RegularPeyda.ttf"),
+    thinItalic: require("../assets/font/RegularPeyda.ttf")
+}
