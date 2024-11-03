@@ -16,41 +16,53 @@ const Search = ({ navigation }) => {
   const [selectedCategories, setSelectedCategories] = useState(["1"]);
   const [selectedRating, setSelectedRating] = useState(["1"]);
   const [selectedDistance, setSelectedDistance] = useState(["All"]);
+  const [brands , setBrands] = useState();
 
+  useEffect(() => {
+    async function getBrands() {
+      const brand = await getBrands();
+      setBrands(brand.data.brands.data)
+    }
+    getBrands()
+  } , [])
+
+ 
   const refRBSheet = useRef();
 
-  /**
-   * Render header
-   */
-  const renderHeader = () => {
+  const renderHeader = (navigation) => {
     return (
       <View style={styles.headerContainer}>
         <View style={styles.headerLeft}>
-          <TouchableOpacity
-            onPress={() => navigation.goBack()}>
-            <Image
-              source={icons.back}
-              resizeMode='contain'
-              style={[styles.backIcon, {
-                tintColor: dark ? COLORS.white : COLORS.greyscale900
-              }]}
-            />
-          </TouchableOpacity>
+
           <Text style={[styles.headerTitle, {
             color: dark ? COLORS.white : COLORS.greyscale900
           }]}>
-            Search
+            جستجوی پیشرفته
           </Text>
         </View>
-        <TouchableOpacity>
-          <Image
-            source={icons.moreCircle}
-            resizeMode='contain'
-            style={[styles.moreIcon, {
-              tintColor: dark ? COLORS.white : COLORS.greyscale900
-            }]}
-          />
-        </TouchableOpacity>
+        <View style={{display : 'flex' , flexDirection : 'row-reverse' , gap : 30}}>
+          <TouchableOpacity>
+              <Image
+                source={icons.moreCircle}
+                resizeMode='contain'
+                style={[styles.moreIcon, {
+                  tintColor: dark ? COLORS.white : COLORS.greyscale900
+                }]}
+              />
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              onPress={() => navigation.goBack()}>
+              <Image
+                source={icons.back}
+                resizeMode='contain'
+                style={[styles.backIcon, {
+                  tintColor: dark ? COLORS.white : COLORS.greyscale900
+                }]}
+              />
+          </TouchableOpacity>
+        </View>
+       
       </View>
     )
   }
@@ -82,7 +94,6 @@ const Search = ({ navigation }) => {
         <View>
           {/* Search Bar */}
           <View
-            onPress={() => console.log("Search")}
             style={[styles.searchBarContainer, {
               backgroundColor: dark ? COLORS.dark2 : COLORS.secondaryWhite
             }]}>
@@ -123,40 +134,17 @@ const Search = ({ navigation }) => {
                   <View style={styles.resultLeftView}>
                     <Text style={[styles.subtitle, {
                       color: dark ? COLORS.white : COLORS.greyscale900
-                    }]}>Results for "</Text>
+                    }]}>" نتایح جستجو</Text>
                     <Text style={[styles.subtitle, { color: COLORS.primary }]}>{searchQuery}</Text>
                     <Text style={styles.subtitle}>"</Text>
                   </View>
-                  <Text style={styles.subResult}>{resultsCount} found</Text>
+                  <Text style={styles.subResult}>{resultsCount} نتیجه</Text>
                 </View>
               )
             }
 
             {/* Courses result list */}
-            <View style={{ marginVertical: 16, backgroundColor: dark ? COLORS.dark1 : COLORS.tertiaryWhite }}>
-              {resultsCount && resultsCount > 0 ? (
-                <FlatList
-                  data={filteredSalons}
-                  keyExtractor={(item) => item.id}
-                  renderItem={({ item }) => {
-                    return (
-                      <SalonCard
-                        name={item.name}
-                        image={item.image}
-                        category={item.category}
-                        rating={item.rating}
-                        location={item.location}
-                        distance={item.distance}
-                        onPress={() => navigation.navigate("SalonDetails")}
-                        categoryId={item.categoryId}
-                      />
-                    )
-                  }}
-                />
-              ) : (
-                <NotFoundCard />
-              )}
-            </View>
+            
           </View>
         </View>
       </View>
@@ -274,7 +262,7 @@ const Search = ({ navigation }) => {
   return (
     <SafeAreaView style={[styles.area, { backgroundColor: colors.background }]}>
       <View style={[styles.container, { backgroundColor: colors.background }]}>
-        {renderHeader()}
+        {renderHeader(navigation)}
         <ScrollView showsVerticalScrollIndicator={false}>
           {renderContent()}
         </ScrollView>
@@ -376,7 +364,7 @@ const styles = StyleSheet.create({
     padding: 16
   },
   headerContainer: {
-    flexDirection: "row",
+    flexDirection: "row-reverse",
     width: SIZES.width - 32,
     justifyContent: "space-between",
     marginBottom: 16

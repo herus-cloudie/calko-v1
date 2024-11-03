@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, TouchableOpacity, Image, useWindowDimensions, FlatList, TextInput, LayoutAnimation } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Image, useWindowDimensions, FlatList, TextInput, LayoutAnimation, Linking } from 'react-native';
 import React, { useState } from 'react';
 import { COLORS, SIZES, icons } from '../constants';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -171,36 +171,29 @@ const contactUsRoute = () => {
     return (
         <View style={[styles.routeContainer, { 
             backgroundColor: dark ? COLORS.dark1 : COLORS.tertiaryWhite }]}>
-            <HelpCenterItem
-                icon={icons.headset}
-                title="Customer Service"
-                onPress={() => navigation.navigate("CustomerService")}
-            />
-            <HelpCenterItem
-                icon={icons.whatsapp}
-                title="Whatsapp"
-                onPress={() => console.log('Whatsapp')}
-            />
-            <HelpCenterItem
-                icon={icons.world}
-                title="Website"
-                onPress={() => console.log('Website')}
-            />
-            <HelpCenterItem
-                icon={icons.facebook2}
-                title="Facebook"
-                onPress={() => console.log('Facebook')}
-            />
-            <HelpCenterItem
-                icon={icons.twitter}
-                title="Twitter"
-                onPress={() => console.log("Twitter")}
-            />
-            <HelpCenterItem
-                icon={icons.instagram}
-                title="Instagram"
-                onPress={() => console.log("Instagram")}
-            />
+
+<HelpCenterItem
+    icon={icons.headset}
+    title="شماره پشتیبانی"
+    onPress={() => navigation.navigate("")}
+/>
+<HelpCenterItem
+    icon={icons.whatsapp}
+    title="واتس‌اپ"
+    onPress={() => Linking.openURL('https://wa.me/your_whatsapp_number')} 
+/>
+<HelpCenterItem
+    icon={icons.world}
+    title="وب‌سایت"
+    onPress={() => Linking.openURL('https://calko.ir')} 
+/>
+
+<HelpCenterItem
+    icon={icons.instagram}
+    title="اینستاگرام"
+    onPress={() => Linking.openURL('https://instagram.com/calko')} 
+/>
+
         </View>
     )
 }
@@ -215,8 +208,8 @@ const HelpCenter = ({ navigation }) => {
 
     const [index, setIndex] = React.useState(0);
     const [routes] = React.useState([
-        { key: 'first', title: 'FAQ' },
-        { key: 'second', title: 'Contact Us' },
+        { key: 'first', title: 'سوالات متداول' },
+        { key: 'second', title: 'ارتباط با ما' },
     ]);
 
     const renderTabBar = (props) => (
@@ -257,7 +250,7 @@ const HelpCenter = ({ navigation }) => {
                     </TouchableOpacity>
                     <Text style={[styles.headerTitle, { 
                         color: dark? COLORS.white : COLORS.greyscale900
-                    }]}>Help Center</Text>
+                    }]}>مرکز راهنما </Text>
                 </View>
                 <TouchableOpacity>
                     <Image

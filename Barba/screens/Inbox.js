@@ -1,6 +1,6 @@
-import { View, Text, StyleSheet, Image, TouchableOpacity, useWindowDimensions } from 'react-native';
+import { View, Text, StyleSheet, Image, TouchableOpacity, useWindowDimensions, FlatList } from 'react-native';
 import React from 'react';
-import { COLORS, SIZES as APP_SIZES, icons, images } from '../constants'; // Renamed SIZES import
+import { COLORS, SIZES as APP_SIZES, icons, images, SIZES } from '../constants'; // Renamed SIZES import
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { TabView, SceneMap, TabBar } from 'react-native-tab-view';
 import { Calls, Chats } from '../tabs';
@@ -8,53 +8,17 @@ import { Feather } from "@expo/vector-icons";
 import { useTheme } from '../theme/ThemeProvider';
 import { Dimensions } from 'react-native';
 
-const SIZES = APP_SIZES || { width: Dimensions.get('window').width, height: Dimensions.get('window').height };
 
-const renderScene = SceneMap({
-  first: Chats,
-  second: Calls,
-});
 
 const Inbox = () => {
-  const layout = useWindowDimensions();
   const { colors, dark } = useTheme();
 
-  const [index, setIndex] = React.useState(0);
-  const [routes] = React.useState([
-    { key: 'first', title: 'ثبت تیکت' },
-    { key: 'second', title: 'تیکت‌های من' },
-  ]);
-
-  const renderTabBar = (props) => (
-    <TabBar
-      {...props}
-      indicatorStyle={{
-        backgroundColor: COLORS.primary,
-      }}
-      style={{
-        backgroundColor: colors.background,
-      }}
-      renderLabel={({ route, focused }) => (
-        <Text style={[{
-          color: focused ? COLORS.primary : 'gray',
-          fontSize: 16,
-          fontFamily: "bold"
-        }]}>
-          {route.title}
-        </Text>
-      )}
-    />
-  )
 
   const renderHeader = () => {
     return (
       <View style={styles.headerContainer}>
         <View style={styles.headerLeft}>
-          <Image
-            source={images.logo}
-            resizeMode='contain'
-            style={styles.headerLogo}
-          />
+ 
           <Text style={[styles.headerTitle, { 
             color: dark ? COLORS.white : COLORS.greyscale900
           }]}>پشتیبانی</Text>
@@ -82,22 +46,33 @@ const Inbox = () => {
       </View>
     )
   }
-
+  const tickets = [
+    { id: '1', title: 'مشکل در دریافت کد تخفیف برای خرید اینترنتی', trackingCode: 'CT123456', description: 'توضیحات: کاربر نمی‌تواند کد تخفیف را هنگام خرید آنلاین دریافت کند.' },
+    { id: '2', title: 'خطا در صدور کد تخفیف', trackingCode: 'MT987654', description: 'توضیحات: سیستم خطا می‌دهد و کد تخفیف صادر نمی‌شود.' },
+   
+  ];
+  
   return (
     <SafeAreaView style={[styles.area, { backgroundColor: colors.background }]}>
       <View style={[styles.container, { backgroundColor: colors.background }]}>
         {renderHeader()}
-        <TabView
-          navigationState={{ index, routes }}
-          renderScene={renderScene}
-          onIndexChange={setIndex}
-          initialLayout={{ width: layout.width }}
-          renderTabBar={renderTabBar}
-        />
-        {/* Implementing adding post */}
-        <TouchableOpacity style={styles.addPostBtn}>
-          <Feather name="plus" size={24} color={COLORS.white} />
-        </TouchableOpacity>
+        <Text style={styles.title}>تیکت های شما</Text>
+        <View style={styles.container}>
+      <FlatList
+        data={tickets}
+        keyExtractor={(item) => item.id}
+        renderItem={({ item }) => (
+          <View style={styles.ticket}>
+            <Text style={styles.title}>{item.title}</Text>
+            <Text style={styles.description}>{item.trackingCode} :کد پیگیری </Text>
+            <Text style={styles.description}>{item.description}</Text>
+          </View>
+        )}
+      />
+    </View>
+    <TouchableOpacity style={styles.button} onPress={() => { /* No action */ }}>
+        <Text style={styles.buttonText}>ثبت تیکت</Text>
+      </TouchableOpacity>
       </View>
     </SafeAreaView>
   )
@@ -114,9 +89,10 @@ const styles = StyleSheet.create({
     padding: 16
   },
   headerContainer: {
-    flexDirection: "row",
+    flexDirection: "row-reverse",
     alignItems: "center",
     width: SIZES.width - 32,
+    marginBottom : 20,
     justifyContent: "space-between"
   },
   headerLeft: {
@@ -165,6 +141,46 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.2,
     shadowOffset: { width: 0, height: 10 }
   }
+  ,
+  container: {
+    flex: 1,
+    padding: 20,
+  },
+  ticket: {
+    backgroundColor: '#fff',
+    padding: 15,
+    marginBottom: 10,
+    borderRadius: 5,
+    elevation: 3,
+    marginRight : 2,
+    marginTop : 2,
+    marginLeft : 2
+  },
+  title: {
+    fontSize: 18,
+    fontFamily: 'bold',
+    textAlign: 'right',
+  },
+  description: {
+    fontFamily: "regular",
+    fontSize: 14,
+    marginTop : 10  ,
+    textAlign: 'right',
+  },
+  button: {
+    backgroundColor: '#007BFF', // Blue background color
+    padding: 10,
+    borderRadius: 5,
+    marginBottom: 70,
+    
+    alignItems: 'center',
+  },
+  buttonText: {
+    color: '#fff', // White text color
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
 })
+
 
 export default Inbox;

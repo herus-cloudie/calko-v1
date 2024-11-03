@@ -3,63 +3,76 @@ import React, { useEffect, useState } from 'react';
 import { COLORS, SIZES, icons, images } from '../constants';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { ScrollView } from 'react-native-virtualized-view';
-import { banners, categories , category, salonsNearbyYourLocations } from '../data';
+import { banners, categories } from '../data';
 import { useTheme } from '../theme/ThemeProvider';
 import Category from '../components/Category';
 import SubHeaderItem from '../components/SubHeaderItem';
 import SalonCard from '../components/SalonCard';
-import { getBrands, getUserService } from '../utils/endpoint';
-import { getJWT, refreshToken } from '../utils/auth';
+import { getBrands } from '../utils/endpoint';
+import { getJWT, getUserProfile } from '../utils/auth';
 
 const Home = ({ navigation }) => {
-  const [currentIndex, setCurrentIndex] = useState(0);
+  const [catId, setCatId] = useState(1);
   const { colors, dark } = useTheme();
-  const [services , setServices] = useState();
   const [brands , setBrands] = useState();
 
+  const [profileData, setProfileData] = useState();
+
   useEffect(() => {
+    const getJWTAndStoreData = async () => {
+      try {
+        const token = await getJWT();
+        const dataOfJWT = await getUserProfile(token);
+        setProfileData(dataOfJWT.data);
+  
+      } catch (error) {
+        console.error("Error fetching profile data:", error);
+      }
+    };
+
+    getJWTAndStoreData();
     async function getBrandsAndServices() {
       const brand = await getBrands();
-        const service = await getUserService();
-        
-        setServices(service.data.services.data)
-        setBrands(brand.data.brands.data)
+      setBrands(brand.data.brands.data)
     }
     getBrandsAndServices()
   } , [])
-  
+
 
   const renderBannerItem = ({ item }) => (
-    <ImageBackground
-      source={item.image} // Dynamic background image
-      style={styles.bannerContainer} // Ensure the background covers the entire container
-    >
-      <View style={styles.bannerTopContainer}>
-        <View>
-          <Text style={styles.bannerDiscount}>{item.discount}</Text>
-          <Text style={styles.bannerDiscountName}>{item.discountName}</Text>
+    <TouchableOpacity 
+    activeOpacity={0.7}>
+      <ImageBackground 
+        source={item.image}
+        style={styles.bannerContainer}
+      >
+        <View style={styles.bannerTopContainer}>
+          <View>
+            <Text style={styles.bannerDiscount}>{item.discount}</Text>
+            <Text style={styles.bannerDiscountName}>{item.discountName}</Text>
+          </View>
+          <Text style={styles.bannerDiscountNum}>{item.discount}</Text>
         </View>
-        <Text style={styles.bannerDiscountNum}>{item.discount}</Text>
-      </View>
-      <View style={styles.bannerBottomContainer}>
-        <Text style={styles.bannerBottomTitle}>{item.bottomTitle}</Text>
-        <Text style={styles.bannerBottomSubtitle}>{item.bottomSubtitle}</Text>
-      </View>
-    </ImageBackground>
+        <View style={styles.bannerBottomContainer}>
+          <Text style={styles.bannerBottomTitle}>{item.bottomTitle}</Text>
+          <Text style={styles.bannerBottomSubtitle}>{item.bottomSubtitle}</Text>
+        </View>
+      </ImageBackground>
+    </TouchableOpacity>
   );
 
   const keyExtractor = (item) => item.id.toString();
 
-  const handleEndReached = () => {
-    setCurrentIndex((prevIndex) => (prevIndex + 1) % banners.length);
-  };
 
   const renderDot = (index) => {
     return (
-      <View
-        style={[styles.dot, index === currentIndex ? styles.activeDot : null]}
-        key={index}
-      />
+
+<>
+</>    
+  // <View
+  //       style={[styles.dot, index === currentIndex ? styles.activeDot : null]}
+  //       key={index}
+  //     />
     );
   };
 
@@ -73,7 +86,8 @@ const Home = ({ navigation }) => {
               style={styles.userIcon}
             />
             <View style={styles.viewNameContainer}>
-               <Text style={styles.greeeting}>بانک صادرات</Text>
+              
+               <Text style={styles.greeeting}>{profileData?.organization_title}</Text>
                <Text style={[styles.title, { 
                 color: dark ? COLORS.white : COLORS.greyscale900
                }]}> سلام امیر مسلمی</Text>
@@ -81,7 +95,7 @@ const Home = ({ navigation }) => {
           </View>
           <View style={styles.viewRight}>
             <TouchableOpacity
-             onPress={()=>navigation.navigate("Notifications")}>
+            >
               <Image
                 source={icons.notificationBell2}
                 resizeMode='contain'
@@ -89,7 +103,7 @@ const Home = ({ navigation }) => {
               />
             </TouchableOpacity>
             <TouchableOpacity
-             onPress={()=>navigation.navigate("MyBookmark")}>
+            >
               <Image
                 source={icons.bookmarkOutline}
                 resizeMode='contain'
@@ -104,12 +118,10 @@ const Home = ({ navigation }) => {
 
     const handleInputFocus = () => {
       // Redirect to another screen
-      navigation.navigate('Search');
     };
 
     return (
       <TouchableOpacity
-        onPress={()=>navigation.navigate("Search")}
         style={[styles.searchBarContainer, { 
           backgroundColor: dark ? COLORS.dark2 : COLORS.secondaryWhite
           }]}>
@@ -146,13 +158,12 @@ const Home = ({ navigation }) => {
           horizontal
           pagingEnabled
           showsHorizontalScrollIndicator={false}
-          onEndReached={handleEndReached}
+          onEndReached={false}
           onEndReachedThreshold={0.5}
           onMomentumScrollEnd={(event) => {
             const newIndex = Math.round(
               event.nativeEvent.contentOffset.x / SIZES.width
             );
-            setCurrentIndex(newIndex);
           }}
         />
         <View style={styles.dotContainer}>
@@ -161,7 +172,7 @@ const Home = ({ navigation }) => {
       </>
     );
   };
-
+  console.log(catId)
   const renderCategories = () => {
     
     return (
@@ -175,7 +186,7 @@ const Home = ({ navigation }) => {
             keyExtractor={(item, index) => index.toString()}
             horizontal={false}
             numColumns={5} 
-            renderItem={({ item, index }) => (
+            renderItem={({ item }) => (
               <Category
                 name={item.name}
                 icon={item.icon}
@@ -212,28 +223,21 @@ const Home = ({ navigation }) => {
     </TouchableOpacity>
   );
 
-    const toggleCategory = (categoryId) => {
-      const updatedCategories = [...selectedCategories];
-      const index = updatedCategories.indexOf(categoryId);
-
-      if (index === -1) {
-        updatedCategories.push(categoryId);
-      } else {
-        updatedCategories.splice(index, 1);
-      }
-
-      setSelectedCategories(updatedCategories);
-    };
-
+  const toggleCategory = (categoryId) => {
+    setSelectedCategories([categoryId]); 
+    setCatId(categoryId);
+  };
+  
+  console.log(brands)
     return (
       <View>
           <SubHeaderItem
-          title="کسب و کارها"
+          title="برترین ها"
           onPress={() => navigation.navigate("SalonsNearbyYourLocation")}
         />
 
         <FlatList
-          data={category}
+          data={[{name : 'داغ ترین‌ها' , id : '1'},{name : 'پرتقاضا ترین‌ها', id : '2'}, {name : 'پربازدید ترین‌ها', id : '3'}]}
           keyExtractor={item=>item.id}
           showsHorizontalScrollIndicator={false}
           horizontal
@@ -243,7 +247,7 @@ const Home = ({ navigation }) => {
         
         <View style={{ backgroundColor: dark ? COLORS.dark1 : COLORS.tertiaryWhite }}>
           <FlatList
-            data={brands}
+            data={catId == '1' ? brands?.slice(0 , 4) : catId == '2' ? brands?.slice(5 , 9) :  brands?.slice(10 , 15)}
             keyExtractor={item=>item.id}
             renderItem={({ item })=>{
               return (
@@ -251,7 +255,7 @@ const Home = ({ navigation }) => {
                   title={item.title}
                   image={item.image}
                   category={item.category}
-                  rating={Math.floor(Math.random() * 5) + 1}
+                  rating={4.5}
                   location={'تهران'}
                   onPress={() => navigation.navigate('SalonDetails', { data: item })}
                   categoryId={item.id} 
@@ -371,15 +375,13 @@ const styles = StyleSheet.create({
     tintColor: COLORS.primary
   },
   bannerContainer: {
-    width :SIZES.width - 32,
-    height: 120 ,
+    width: SIZES.width - 32,
+    height: 120,
     paddingHorizontal: 28,
     paddingTop: 28,
-    marginBottom :10,
-    // marginTop : 15,
-    borderRadius: 50,
-    // backgroundColor: COLORS.dark2
-  
+    marginBottom: 0,
+    borderRadius: 10,
+    overflow: 'hidden', // Ensure the border radius is applied correctly
   },
   bannerTopContainer: {
     flexDirection: "row",

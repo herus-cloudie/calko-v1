@@ -37,7 +37,7 @@ const styles = StyleSheet.create({
         flexDirection: "column",
         alignItems: "center",
         marginBottom: 12,
-        width: (SIZES.width - 32)/4
+        width: (SIZES.width - 90)/3
     },
     background : {
         height: 70,

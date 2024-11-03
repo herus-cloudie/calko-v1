@@ -18,7 +18,6 @@ export const getJWT = async () => {
   
   try {
     const token = await AsyncStorage.getItem('jwt');
-    console.log(token)
     return token;
     
   } catch (error) {
@@ -38,12 +37,12 @@ export const deleteJWT = async () => {
 
 
 // call endpoint and api (related to jwt)
-export const LoginFunc = async (email, password) => {
+export const LoginFunc = async (username, password) => {
 
   const response = await fetch(`${API_BASE_URL}/login`, {
     method: 'POST',
     headers: {'accept' : 'application/json' , 'Content-Type' : "application/json"},
-    body: JSON.stringify({email, password }),
+    body: JSON.stringify({username, password }),
   });
 
   const data = await response.json();

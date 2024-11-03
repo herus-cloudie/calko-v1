@@ -1,12 +1,9 @@
-import { View, Text, StyleSheet, TouchableOpacity, Image, FlatList } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Image, FlatList, Linking } from 'react-native';
 import React, { useRef, useState } from 'react';
-import { COLORS, SIZES, icons, images, socials } from "../constants";
+import { COLORS, SIZES, icons, socials } from "../constants";
 import AutoSlider from '../components/AutoSlider';
 import { StatusBar } from 'expo-status-bar';
 import LinkItem from '../components/LinkItem';
-import SubHeaderItem from '../components/SubHeaderItem';
-import { specialists } from '../data';
-import SpecialistCard from '../components/SpecialistCard';
 import { TabSelection } from '../tabs';
 import { ScrollView } from 'react-native-virtualized-view';
 import RBSheet from "react-native-raw-bottom-sheet";
@@ -19,8 +16,6 @@ const SalonDetails = ({ navigation , route }) => {
   const { dark, colors } = useTheme();
   const { data } = route.params;
 
-  console.log(data)
-  // render header
   const renderHeader = ()=>{
     const [isBookmarked, setIsBookmarked] = useState(false);
 
@@ -59,7 +54,6 @@ const SalonDetails = ({ navigation , route }) => {
               color: colors.text
              }]}>{data.title}</Text>
            <TouchableOpacity 
-              onPress={() => setIsOpen(!isOpen)}
               style={[styles.salonBtn, { 
                   backgroundColor: isOpen ? COLORS.primary : "red"
               }]}>
@@ -86,7 +80,7 @@ const SalonDetails = ({ navigation , route }) => {
             <Text style={[styles.starMiddleText, {
                marginVertical: 6 ,
                color: dark ? COLORS.grayscale200 : COLORS.grayscale700,
-               }]}>{Math.floor(Math.random() * 5) + 1}</Text>
+               }]}>4.5</Text>
          </View>
 
          {/* More information links */}
@@ -95,32 +89,20 @@ const SalonDetails = ({ navigation , route }) => {
               style={styles.linkItem}
               name="وبسایت"
               icon={icons.explore}
-              onPress={()=>console.log("وبسایت")}
+              onPress={()=> Linking.openURL(data.address_url)}
             />
-            <LinkItem
-              style={styles.linkItem}
-              name="پیام"
-              icon={icons.chat}
-              onPress={()=>navigation.navigate("Inbox")}
-            />
-            <LinkItem
-              style={styles.linkItem}
-              name="تماس"
-              icon={icons.phoneCall}
-              onPress={()=>navigation.navigate("Call")}
-            />
-            <View style={styles.linkItem}>
+            <View style={styles.linkItem2}>
               <LinkItem
                 name="مسیریابی"
                 icon={icons.location2}
-                onPress={()=>console.log("مسیریابی")}
+                onPress={()=> Linking.openURL(data.address_url)}
               />
             </View>
             <LinkItem
               style={styles.linkItem}
              name="اشتراک‌گذاری"
              icon={icons.send2}
-             onPress={()=>refRBSheet.current.open()}
+             onPress={()=> Linking.openURL(data.address_url)}
             />
          </View>
 
@@ -243,6 +225,7 @@ const SalonDetails = ({ navigation , route }) => {
 
 const styles = StyleSheet.create({
  linkItem : {color : COLORS.secondary},
+ linkItem2 : {opacity : .5},
   area: {
     flex: 1,
     backgroundColor: COLORS.white

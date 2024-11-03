@@ -30,13 +30,13 @@ const OurGallery = () => {
             <View style={[styles.separateLine, { 
                 backgroundColor: dark ? COLORS.grayscale700 : COLORS.grayscale200,
             }]} />
-            <FlatList
+            {/* <FlatList
                 data={ourGallery}
                 renderItem={renderItem}
                 keyExtractor={(item, index) => index.toString()}
                 numColumns={numColumns}
                 contentContainerStyle={styles.container}
-            />
+            /> */}
         </View>
     )
 };

@@ -35,6 +35,7 @@ const ProfileData = ({navigation}) => {
         <View style={styles.content}>
           <Text style={styles.text}>نام: {profileData?.first_name}</Text>
           <Text style={styles.text}>نام خانوادگی: {profileData?.last_name}</Text>
+          <Text style={styles.text}>نام کاربری: {profileData?.username}</Text>
           <Text style={styles.text}>ایمیل: {profileData?.email}</Text>
           <Text style={styles.text}>سازمان: {profileData?.organization_title}</Text>
         </View>
@@ -66,13 +67,14 @@ const styles = StyleSheet.create({
   header: {
     fontFamily : 'regular',
     padding: 16,
+    paddingTop : 0,
     fontSize: 30,
-    fontWeight: '700',
+    // fontWeight: '700',
   },
   content: {
     padding: 16,
     fontFamily : 'regular',
-    backgroundColor: COLORS.white,
+    backgroundColor: '#e4f1ff',
     borderRadius: 20,
   },
   text: {

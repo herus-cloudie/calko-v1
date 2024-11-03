@@ -28,8 +28,8 @@ const Reviews = () => {
                 </TouchableOpacity>
             </View>
             <View style={{ marginVertical: 16 }}>
-                <FlatList
-                    data={salonReviews.slice(0, 4)}
+                {/* <FlatList
+                    data={salonReviews}
                     keyExtractor={item => item.id}
                     renderItem={({ item, index }) => (
                         <ReviewCard
@@ -41,7 +41,7 @@ const Reviews = () => {
                             numLikes={item.numLikes}
                         />
                     )}
-                />
+                /> */}
             </View>
         </View>
     )

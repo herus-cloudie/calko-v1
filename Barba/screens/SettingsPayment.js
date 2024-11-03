@@ -1,17 +1,31 @@
 import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { COLORS, icons } from '../constants';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { ScrollView } from 'react-native-virtualized-view';
 import PaymentMethodItemConnected from '../components/PaymentMethodItemConnected';
 import Button from '../components/Button';
 import { useTheme } from '../theme/ThemeProvider';
+import { getJWT, getUserProfile } from '../utils/auth';
 
 const SettingsPayment = ({ navigation }) => {
     const { colors, dark } = useTheme();
-    /**
-     * Render Header
-     */
+
+    const [profileData, setProfileData] = useState();
+    useEffect(() => {
+        const getJWTAndStoreData = async () => {
+          try {
+            const token = await getJWT();
+            const dataOfJWT = await getUserProfile(token);
+            setProfileData(dataOfJWT.data);
+          } catch (error) {
+            console.error("Error fetching profile data:", error);
+          }
+        };
+    
+        getJWTAndStoreData();
+      }, []);
+
     const renderHeader = () => {
         return (
             <View style={styles.headerContainer}>
@@ -27,7 +41,7 @@ const SettingsPayment = ({ navigation }) => {
                     </TouchableOpacity>
                     <Text style={[styles.headerTitle, { 
                         color: dark? COLORS.white : COLORS.greyscale900
-                    }]}>Payment</Text>
+                    }]}>محل کار جاری</Text>
                 </View>
                 <TouchableOpacity>
                     <Image
@@ -48,32 +62,10 @@ const SettingsPayment = ({ navigation }) => {
                     style={styles.settingsContainer}
                     showsVerticalScrollIndicator={false}>
                     <PaymentMethodItemConnected
-                        title="PayPal"
-                        icon={icons.paypal}
+                        title={profileData?.organization_title}
                         onPress={() => console.log("PayPal")}
                     />
-                     <PaymentMethodItemConnected
-                        title="Google Pay"
-                        icon={icons.google}
-                        onPress={() => console.log("Google Pay")}
-                    />
-                     <PaymentMethodItemConnected
-                        title="Apple Pay"
-                        icon={icons.appleLogo}
-                        onPress={() => console.log("Google Pay")}
-                        tintColor={dark ? COLORS.white : COLORS.black}
-                    />
-                    <PaymentMethodItemConnected
-                        title="**** **** **** **** 4679"
-                        icon={icons.mastercard}
-                        onPress={() => console.log("Credit Card")}
-                    />
                 </ScrollView>
-                <Button
-                  title="Add New Card"
-                  filled
-                  onPress={() => navigation.navigate('AddNewCard')}
-                />
             </View>
         </SafeAreaView>
     )

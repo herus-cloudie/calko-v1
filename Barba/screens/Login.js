@@ -14,11 +14,11 @@ import { LoginFunc, storeJWT } from '../utils/auth';
 
 const initialState = {
   inputValues: {
-    email: '',
+    username: '',
     password: ''
   },
   inputValidities: {
-    email: false,
+    username: false,
     password: false
   },
   formIsValid: false,
@@ -42,7 +42,7 @@ const Login = ({navigation}) => {
   const loginHandler = async () => {
 
     setIsLoading(true)
-    const sendForm = await LoginFunc(formState.inputValues.email , formState.inputValues.password)
+    const sendForm = await LoginFunc(formState.inputValues.username , formState.inputValues.password)
     setIsLoading(false)
     if(sendForm.data){ 
       await storeJWT(sendForm.data.access_token)
@@ -71,13 +71,13 @@ const Login = ({navigation}) => {
             color: dark ? COLORS.white : COLORS.black
           }]}>وارد اکانت خود شوید</Text>
             <Input
-              id="email"
+              id="username"
               onInputChanged={inputChangedHandler}
-              errorText={formState.inputValidities['email']}
-              placeholder="ایمیل"
+              errorText={formState.inputValidities['username']}
+              placeholder="نام کاربری"
               placeholderTextColor={dark ? COLORS.grayTie : COLORS.black}
-              icon={icons.email}
-              keyboardType="email-address"
+              icon={icons.username}
+              keyboardType="text"
             />
             <Input
               onInputChanged={inputChangedHandler}

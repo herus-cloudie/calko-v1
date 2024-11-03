@@ -1,155 +1,86 @@
-import { View, Text, StyleSheet, FlatList, TouchableOpacity, Image } from 'react-native';
-import React from 'react';
-import { cancelledBookings } from '../data';
-import { SIZES, COLORS } from '../constants';
-import { useTheme } from '../theme/ThemeProvider';
+import { View, Text, StyleSheet, ScrollView } from 'react-native';
+import React, { useCallback, useState } from 'react';
+import { useFocusEffect } from '@react-navigation/native';
+import { COLORS } from '../constants';
+import { getUserServicesStatus } from '../utils/endpoint';
 
 const CancelledBookings = () => {
-  const { colors, dark } = useTheme();
+  const [discounts, setDiscounts] = useState([]);
+
+  useFocusEffect(
+    useCallback(() => {
+      const GetUsedCode = async () => {
+        const sendReq = await getUserServicesStatus();
+        setDiscounts(sendReq.data.codes.data);
+      };
+      GetUsedCode();
+    }, [])
+  );
 
   return (
-    <View style={[styles.container, { 
-      backgroundColor: dark ? COLORS.dark1 : COLORS.tertiaryWhite
-    }]}>
-       <FlatList
-         data={cancelledBookings}
-         keyExtractor={item=>item.id}
-         showsVerticalScrollIndicator={false}
-         renderItem={({ item })=>(
-          <TouchableOpacity style={[styles.cardContainer, { 
-            backgroundColor: dark? COLORS.dark2 : COLORS.white,
-          }]}>
-            <View style={styles.dateContainer}>
-               <Text style={[styles.date, { 
-                color: dark ? COLORS.white : COLORS.greyscale900
-               }]}>{item.date}</Text>
-               <View style={styles.statusContainer}>
-                <Text style={styles.status}>{item.status}</Text>
-               </View>
+    <ScrollView>  
+      {
+        discounts.map((item) => {
+          return (
+            <View key={item.code_voucher.voucher.id} style={styles.sectionOne}>
+              <Text style={styles.sectionTitle}>{item?.code_voucher.voucher.title}</Text>
+              <Text style={styles.sectionpTitle}>{item?.code_voucher.voucher.value} درصدی</Text>
+              <Text style={styles.sectionContent}>قابلیت استفاده: {item.code_voucher.voucher.max_use} بار</Text>
+              <Text>کد تخفیف: {item.code_voucher.code}</Text>
             </View>
-            <View style={[styles.separateLine, {
-              backgroundColor: dark?  COLORS.greyScale800 : COLORS.grayscale200,
-            }]} />
-            <View style={styles.detailsContainer}>
-                <Image
-                  source={item.image}
-                  resizeMode='cover'
-                  style={styles.barberImage}
-                />
-                <View style={styles.detailsRightContainer}>
-                  <Text style={[styles.name, { 
-                    color: dark ? COLORS.white : COLORS.greyscale900
-                  }]}>{item.name}</Text>
-                  <Text style={[styles.address, { 
-                     color: dark ? COLORS.grayscale400 : COLORS.grayscale700,
-                  }]}>{item.address}</Text>
-                  <Text style={[styles.serviceTitle, { 
-                     color: dark ? COLORS.grayscale400 : COLORS.grayscale700,
-                  }]}>Services:</Text>
-                  <Text style={styles.serviceText}>{item.services.join(", ")}</Text>
-                </View>
-            </View>
-          </TouchableOpacity>
-         )}
-       />
-    </View>
-  )
+          );
+        })
+      }
+    </ScrollView>
+  );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    backgroundColor: COLORS.tertiaryWhite
-  },  
-  cardContainer: {
-    width: SIZES.width - 32,
-    borderRadius: 18,
-    backgroundColor: COLORS.white,
-    paddingHorizontal: 8,
-    paddingVertical: 12,
-    marginBottom: 16
-  },
-  dateContainer: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-  },
-  date: {
-    fontSize: 16,
-    fontFamily: "bold",
-    color: COLORS.greyscale900
-  },
-  statusContainer: {
-    width: 64,
-    height: 24,
-    borderRadius: 6,
-    backgroundColor: COLORS.red,
-    alignItems: "center",
-    justifyContent: "center"
-  },
-  status: {
-    fontSize: 10,
-    color: COLORS.white,
-    fontFamily: "medium",
-  },
-  separateLine: {
-    width: "100%",
-    height: .7,
-    backgroundColor: COLORS.grayscale700,
-    marginVertical: 10
-  },
-  detailsContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-  },
-  barberImage: {
-    width: 88,
-    height: 88,
-    borderRadius: 16,
-    marginHorizontal: 12
-  },
-  detailsRightContainer: {
+  area: {
     flex: 1,
-    marginLeft: 12
+    marginTop: 20,
+    backgroundColor: COLORS.whtie,
   },
-  name: {
-    fontSize: 17,
-    fontFamily: "bold",
-    color: COLORS.greyscale900
+  container: {
+    flex: 1,
+    padding: 20,
+    backgroundColor: '#f5f5f5',
   },
-  address: {
-    fontSize: 12,
-    fontFamily: "regular",
-    color: COLORS.grayscale700,
-    marginVertical: 4
+  noDiscountText: {
+    textAlign: 'center',
+    fontWeight: '700',
+    fontSize: 18,
   },
-  serviceTitle: {
-    fontSize: 12,
-    fontFamily: "regular",
-    color: COLORS.grayscale700,
+  buttonAvailable: {
+    marginTop: 15,
+    backgroundColor: COLORS.secondary,
+    borderColor: 'white',
   },
-  serviceText: {
-    fontSize: 12,
-    color: COLORS.primary,
-    fontFamily: "medium",
-    marginTop: 6
+  buttonUsed: {
+    marginTop: 15,
+    backgroundColor: COLORS.primary,
+    borderColor: 'white',
+    color: COLORS.white,
   },
-  receiptBtn: {
-    width: "100%",
-    height: 36,
-    borderRadius: 24,
-    backgroundColor: COLORS.white,
-    alignItems: "center",
-    justifyContent: "center",
-    marginTop: 6,
-    borderColor: COLORS.primary,
-    borderWidth: 1.4,
-    marginBottom: 12
+  sectionOne: {
+    backgroundColor: COLORS.secondary,
+    padding: 15,
+    borderRadius: 10,
+    marginBottom: 10,
+    color: COLORS.white,
   },
-  receiptBtnText: {
+  sectionTitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+  },
+  sectionpTitle: {
     fontSize: 16,
-    fontFamily: "bold",
-    color: COLORS.primary,
-  }
-})
+    fontWeight: 'bold',
+  },
+  sectionContent: {
+    fontSize: 14,
+    marginTop: 5,
+  },
+});
 
-export default CancelledBookings
+export default CancelledBookings;

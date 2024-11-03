@@ -9,37 +9,36 @@ import { useTheme } from '../theme/ThemeProvider';
 const SettingsPrivacyPolicy = () => {
     const { colors, dark } = useTheme();
 
-    // change the privacy policy
-  return (
-    <SafeAreaView style={[styles.area, { backgroundColor: colors.background }]}>
-        <View style={[styles.container, { backgroundColor: colors.background }]}>
-            <Header title="Privacy Policy"/>
-            <ScrollView showsVerticalScrollIndicator={false}>
-                <View>
-                    <Text style={[styles.settingsTitle, { color: dark ? COLORS.white : COLORS.black }]}>1. Types of Data We Collect</Text>
-                    <Text style={[styles.body, { color: dark ? COLORS.secondaryWhite : COLORS.greyscale900 }]}>We may collect the following types of data:</Text>
-                    <Text style={[styles.body, { color: dark ? COLORS.secondaryWhite : COLORS.greyscale900 }]}>Personal Information: This includes but is not limited to your name, email address, and other contact details provided during account registration or usage of our services.</Text>
-                    <Text style={[styles.body, { color: dark ? COLORS.secondaryWhite : COLORS.greyscale900 }]}>Usage Information: We may collect information about how you interact with our services, including but not limited to IP addresses, device information, and browsing history.</Text>
-                    <Text style={[styles.body, { color: dark ? COLORS.secondaryWhite : COLORS.greyscale900 }]}>Cookies and Similar Technologies: We use cookies and similar technologies to enhance your experience and gather information about your preferences.</Text>
-                </View>
-                <View>
-                    <Text style={[styles.settingsTitle, { color: dark ? COLORS.white : COLORS.black }]}>2. Use of Your Personal Data</Text>
-                    <Text style={[styles.body, { color: dark ? COLORS.secondaryWhite : COLORS.greyscale900 }]}>We may use your personal data for the following purposes:</Text>
-                    <Text style={[styles.body, { color: dark ? COLORS.secondaryWhite : COLORS.greyscale900 }]}>Service Delivery: To provide and maintain our services, including personalized content and features.</Text>
-                    <Text style={[styles.body, { color: dark ? COLORS.secondaryWhite : COLORS.greyscale900 }]}>Communication: To communicate with you, respond to your inquiries, and provide important information about our services.</Text>
-                    <Text style={[styles.body, { color: dark ? COLORS.secondaryWhite : COLORS.greyscale900 }]}>Analytics: To analyze usage patterns, improve our services, and customize content based on user preferences.</Text>
-                </View>
-                <View>
-                    <Text style={[styles.settingsTitle, { color: dark ? COLORS.white : COLORS.black }]}>3. Disclosure of Your Personal Data</Text>
-                    <Text style={[styles.body, { color: dark ? COLORS.secondaryWhite : COLORS.greyscale900 }]}>We may disclose your personal data in the following situations:</Text>
-                    <Text style={[styles.body, { color: dark ? COLORS.secondaryWhite : COLORS.greyscale900 }]}>Legal Obligations: To comply with legal obligations, such as responding to lawful requests or court orders.</Text>
-                    <Text style={[styles.body, { color: dark ? COLORS.secondaryWhite : COLORS.greyscale900 }]}>Third-Party Service Providers: We may share your information with third-party service providers who assist us in delivering our services, subject to confidentiality agreements.</Text>
-                    <Text style={[styles.body, { color: dark ? COLORS.secondaryWhite : COLORS.greyscale900 }]}>Business Transactions: In the event of a merger, acquisition, or sale of all or a portion of our assets, your personal data may be transferred as part of the transaction.</Text>
-                </View>
-            </ScrollView>
-        </View>
-    </SafeAreaView>
-  )
+    return (
+        <SafeAreaView style={[styles.area, { backgroundColor: colors.background }]}>
+            <View style={[styles.container, { backgroundColor: colors.background }]}>
+                <Header title="سیاست حریم خصوصی"/>
+                <ScrollView showsVerticalScrollIndicator={false}>
+                    <View>
+                        <Text style={[styles.settingsTitle, { color: dark ? COLORS.white : COLORS.black }]}>۱. چه اطلاعاتی از شما می‌گیریم</Text>
+                        <Text style={[styles.body, { color: dark ? COLORS.secondaryWhite : COLORS.greyscale900 }]}>ما ممکنه این نوع اطلاعات رو جمع کنیم:</Text>
+                        <Text style={[styles.body, { color: dark ? COLORS.secondaryWhite : COLORS.greyscale900 }]}>اطلاعات شخصی: مثل اسم، ایمیل و چیزایی که موقع ثبت‌نام یا استفاده از خدمات به ما میدی.</Text>
+                        <Text style={[styles.body, { color: dark ? COLORS.secondaryWhite : COLORS.greyscale900 }]}>اطلاعات استفاده: مثلا اینکه چطور از خدمات ما استفاده می‌کنی، مثل آدرس IP و دستگاهی که استفاده می‌کنی.</Text>
+                        <Text style={[styles.body, { color: dark ? COLORS.secondaryWhite : COLORS.greyscale900 }]}>کوکی‌ها: ما از کوکی‌ها استفاده می‌کنیم تا تجربه بهتری داشته باشی و اطلاعاتی از علاقه‌مندیت جمع کنیم.</Text>
+                    </View>
+                    <View>
+                        <Text style={[styles.settingsTitle, { color: dark ? COLORS.white : COLORS.black }]}>۲. چطور از اطلاعات شما استفاده می‌کنیم</Text>
+                        <Text style={[styles.body, { color: dark ? COLORS.secondaryWhite : COLORS.greyscale900 }]}>از اطلاعات شما برای این کارا استفاده می‌کنیم:</Text>
+                        <Text style={[styles.body, { color: dark ? COLORS.secondaryWhite : COLORS.greyscale900 }]}>ارائه خدمات: تا بتونیم خدمات‌مون رو بهتر و شخصی‌تر بهت ارائه بدیم.</Text>
+                        <Text style={[styles.body, { color: dark ? COLORS.secondaryWhite : COLORS.greyscale900 }]}>ارتباط با شما: برای اینکه بتونیم سوالاتت رو جواب بدیم و اخبار مهم رو بهت بگیم.</Text>
+                        <Text style={[styles.body, { color: dark ? COLORS.secondaryWhite : COLORS.greyscale900 }]}>تحلیل و بهبود: تا بتونیم سرویس‌ها رو بهتر کنیم و بر اساس علاقه‌مندی‌ها، محتوا رو تنظیم کنیم.</Text>
+                    </View>
+                    <View>
+                        <Text style={[styles.settingsTitle, { color: dark ? COLORS.white : COLORS.black }]}>۳. چه وقتایی اطلاعاتتون رو به اشتراک می‌ذاریم</Text>
+                        <Text style={[styles.body, { color: dark ? COLORS.secondaryWhite : COLORS.greyscale900 }]}>ممکنه اطلاعاتت رو در این شرایط به اشتراک بذاریم:</Text>
+                        <Text style={[styles.body, { color: dark ? COLORS.secondaryWhite : COLORS.greyscale900 }]}>طبق قانون: وقتی قانونی مجبور باشیم که به درخواست‌های قانونی پاسخ بدیم.</Text>
+                        <Text style={[styles.body, { color: dark ? COLORS.secondaryWhite : COLORS.greyscale900 }]}>شرکای کاری: ممکنه اطلاعاتت رو با شرکت‌هایی که بهمون در ارائه خدمات کمک می‌کنن به اشتراک بذاریم.</Text>
+                        <Text style={[styles.body, { color: dark ? COLORS.secondaryWhite : COLORS.greyscale900 }]}>تغییرات بزرگ: اگه یه تغییر بزرگ مثل فروش یا ادغام اتفاق بیفته، ممکنه اطلاعاتت به شرکت جدید منتقل بشه.</Text>
+                    </View>
+                </ScrollView>
+            </View>
+        </SafeAreaView>
+    )
 };
 
 const styles = StyleSheet.create({
@@ -66,4 +65,4 @@ const styles = StyleSheet.create({
     }
 })
 
-export default SettingsPrivacyPolicy
+export default SettingsPrivacyPolicy;

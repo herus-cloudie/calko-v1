@@ -32,7 +32,7 @@ const SalonCard = ({
     title,
     image,
     rating,
-    // distance,
+    address_url,
     onPress,
     location,
     category
@@ -72,8 +72,6 @@ const SalonCard = ({
                     <Text style={styles.category}>دسته بندی : {category.title}</Text>
                 </View>
                 <View style={styles.ratingContainer}>
-                    {/* <MaterialIcons name="location-on" size={14} color="orange" />
-                    <Text style={styles.distance}> {" "}{distance} {"  "}</Text> */}
                     <FontAwesome name="star-half-empty" size={14} color="orange" />
                     <Text style={styles.rating}> {" "}{rating}</Text>
                 </View>

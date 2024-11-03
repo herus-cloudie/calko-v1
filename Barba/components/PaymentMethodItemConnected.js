@@ -27,7 +27,7 @@ const PaymentMethodItemConnected = ({ onPress, title, icon, tintColor }) => {
         </View>
       </View>
       <View style={styles.leftContainer}>
-         <Text style={styles.connectedTitle}>Connected</Text>
+         <Text style={styles.connectedTitle}>فعال</Text>
       </View>
     </TouchableOpacity>
   );
@@ -56,6 +56,7 @@ const styles = StyleSheet.create({
   rightContainer: {
     flexDirection: 'row',
     alignItems: 'center',
+    
   },
   icon: {
     height: 26,
@@ -99,7 +100,8 @@ const styles = StyleSheet.create({
   connectedTitle: {
     fontSize: 16,
     fontFamily: "semiBold",
-    color: COLORS.primary
+    color: COLORS.primary,
+    marginRight: 16,
   }
 });
 

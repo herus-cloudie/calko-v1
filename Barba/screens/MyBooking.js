@@ -4,6 +4,7 @@ import { COLORS, SIZES, icons, images } from '../constants';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import BookingTabSelection from '../tabs/BookingTabSelection';
 import { useTheme } from '../theme/ThemeProvider';
+import CancelledBookings from '../tabs/CancelledBookings';
 
 const MyBooking = () => {
   const { colors, dark } = useTheme();
@@ -15,14 +16,9 @@ const MyBooking = () => {
     return (
       <View style={styles.headerContainer}>
          <View style={styles.headerLeftContainer}>
-            <Image
-              source={images.logo}
-              resizeMode='contain'
-              style={styles.logoIcon}
-            />
             <Text style={[styles.headerTitle, {
               color: dark ? COLORS.white : COLORS.greyscale900
-            }]}>رزروهای من</Text>
+            }]}>تخفیف های دریافت شده</Text>
          </View>
          <View style={styles.headerRightContainer}>
             <TouchableOpacity>
@@ -51,7 +47,7 @@ const MyBooking = () => {
     <SafeAreaView style={[styles.area, { backgroundColor: dark ? COLORS.dark1 : COLORS.white }]}>
       <View style={[styles.container, { backgroundColor: dark ? COLORS.dark1 : COLORS.white }]}>
         {renderHeader()}
-        <BookingTabSelection/>
+        <CancelledBookings/>
       </View>
     </SafeAreaView>
   )
@@ -68,16 +64,18 @@ const styles = StyleSheet.create({
     paddingRight: 16,
     paddingLeft: 16,
     paddingTop: 16,
-    paddingBottom: 270
+    marginBottom : 80
+    // paddingBottom: 270
   },
   headerContainer: {
     width: SIZES.width - 32,
-    flexDirection: "row",
+    flexDirection: "row-reverse",
     justifyContent: "space-between",
-    alignItems: "center"
+    alignItems: "center",
+    paddingBottom : 40
   },
   headerLeftContainer: {
-    flexDirection: "row",
+    flexDirection: "row-reverse",
     alignItems: "center"
   },
   logoIcon: {

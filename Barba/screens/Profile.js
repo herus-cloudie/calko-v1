@@ -1,10 +1,8 @@
 import { View, Text, StyleSheet, TouchableOpacity, Image, Switch } from 'react-native';
 import React, { useState, useRef } from 'react';
-import { COLORS, SIZES, icons, images } from '../constants';
+import { COLORS, SIZES, icons } from '../constants';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { ScrollView } from 'react-native-virtualized-view';
-import { MaterialIcons } from '@expo/vector-icons';
-import { launchImagePicker } from '../utils/ImagePickerHelper';
 import SettingsItem from '../components/SettingsItem';
 import { useTheme } from '../theme/ThemeProvider';
 import RBSheet from "react-native-raw-bottom-sheet";
@@ -15,9 +13,6 @@ const Profile = ({ navigation }) => {
   const refRBSheet = useRef();
   const { dark, colors, setScheme } = useTheme();
 
-  const toggleTheme = () => {
-    dark ? setScheme('light') : setScheme('dark')
-  } 
   /**
    * Render Header
    */
@@ -44,42 +39,7 @@ const Profile = ({ navigation }) => {
       </TouchableOpacity>
     )
   }
-  /**
-   * Render User Profile
-   */
-  const renderProfile = () => {
-    const [image, setImage] = useState(images.user1)
-
-    const pickImage = async () => {
-      try {
-        const tempUri = await launchImagePicker()
-
-        if (!tempUri) return
-
-        // set the image
-        setImage({ uri: tempUri })
-      } catch (error) { }
-    };
-    return (
-      <View style={styles.profileContainer}>
-        <View>
-          <Image
-            source={image}
-            resizeMode='cover'
-            style={styles.avatar}
-          />
-          {/* <TouchableOpacity
-            onPress={pickImage}
-            style={styles.picContainer}>
-            <MaterialIcons name="edit" size={16} color={COLORS.white} />
-          </TouchableOpacity> */}
-        </View>
-      </View>
-    )
-  }
-  /**
-   * Render Settings
-   */
+  
   const renderSettings = () => {
     const [isDarkMode, setIsDarkMode] = useState(false);
 
@@ -98,7 +58,7 @@ const Profile = ({ navigation }) => {
         <SettingsItem
           icon={icons.bell2}
           name="اطلاعیه‌ها"
-          onPress={() => navigation.navigate("Notifications")}
+          onPress={() => navigation.navigate("")}
         />
         <SettingsItem
           icon={icons.wallet2Outline}

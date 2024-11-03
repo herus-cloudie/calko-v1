@@ -4,7 +4,6 @@ import { COLORS, SIZES, FONTS, icons } from '../constants';
 import Button from "../components/Button";
 import { useNavigation } from '@react-navigation/native';
 import { useTheme } from '../theme/ThemeProvider';
-import { getServiceByBrandAndUser } from '../utils/endpoint';
 
 const AboutUs = ({data}) => {
     const [expanded, setExpanded] = useState(false);

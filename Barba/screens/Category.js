@@ -6,15 +6,17 @@ import { ScrollView } from 'react-native-virtualized-view';
 import { useTheme } from '../theme/ThemeProvider';
 import SubHeaderItem from '../components/SubHeaderItem';
 import SalonCard from '../components/SalonCard';
-import { getBrands, getUserService } from '../utils/endpoint';
+import { getBrands } from '../utils/endpoint';
 
 const CategoryScreen = ({ navigation , route }) => {
     const [brands , setBrands] = useState();
-  
+    const [loading , setLoading] = useState(false);
     useEffect(() => {
       async function getBrandsAndServices() {
+        setLoading(true)
         const brand = await getBrands(); 
         setBrands(brand?.data.brands.data)
+        setLoading(false)
       }
       getBrandsAndServices()
     } , [])
@@ -26,10 +28,10 @@ const CategoryScreen = ({ navigation , route }) => {
         { id: "2", name: "پزشکی درمانی", navigation: "Healthcare" },
         { id: "3", name: "رستوران", navigation: "Restaurant" },
         { id: "4", name: "بیمه", navigation: "Insurance" },
-        { id: "5", name: "آرایشی بهداشتی", navigation: "Beauty" },
+        { id: "5", name: "آرایشی و بهداشتی", navigation: "Beauty" },
         { id: "6", name: "گردشگری", navigation: "Tourism" },
         { id: "7", name: "خشکبار", navigation: "Dry Goods" },
-        { id: "8", name: "فرهنگی آموزشی", navigation: "Education" },
+        { id: "8", name: "فرهنگی و آموزشی", navigation: "Education" },
         { id: "9", name: "لوازم خانگی", navigation: "Home Appliances" },
         { id: "10", name: "وسیله نقلیه", navigation: "Vehicles" },
         { id: "11", name: "نرم افزاری", navigation: "Software" },
@@ -45,11 +47,11 @@ const CategoryScreen = ({ navigation , route }) => {
 
   const allDiscount = () => {
     const filterBrands = brands?.filter(item => item.category.title == categoryNames[0])
-
+    
     return (
       <View>
           <SubHeaderItem
-          title="کسب و کارها"
+          title={route.params.data.name}
           onPress={() => navigation.navigate("SalonsNearbyYourLocation")}
         />
         
@@ -58,12 +60,13 @@ const CategoryScreen = ({ navigation , route }) => {
             data={filterBrands}
             keyExtractor={item=>item.id}
             renderItem={({ item })=>{
-              return (
+              return(
                 <SalonCard
                   title={item.title}
                   image={item.image}
                   category={item.category}
-                  rating={Math.floor(Math.random() * 5) + 1}
+                  loading={loading}
+                  rating={'4.5'}
                   location={'تهران'}
                   onPress={() => navigation.navigate('SalonDetails', { data: item })}
                   categoryId={item.id} 
@@ -91,7 +94,7 @@ const styles = StyleSheet.create({
  linkItem : {color : COLORS.secondary},
   area: {
     flex: 1,
-    backgroundColor: COLORS.white
+    backgroundColor: COLORS.white,
   },
   headerContainer: {
     width: SIZES.width - 32,
