@@ -51,11 +51,7 @@ const AppNavigation = () => {
               screenOptions={{ headerShown: false }}
               // replace the second onboaring1 with login in order to make the user not to see the onboarding 
               // when login the next time
-              initialRouteName={isLoggedIn ? 'Main' : isFirstLaunch ? 'Onboarding1' : 'Login'}>
-                <Stack.Screen name="Onboarding1" component={Onboarding1}/>
-                <Stack.Screen name="Onboarding2" component={Onboarding2}/>
-                <Stack.Screen name="Onboarding3" component={Onboarding3}/>
-                <Stack.Screen name="Onboarding4" component={Onboarding4}/>
+              initialRouteName={isLoggedIn ? 'Main' : 'Login'}>
                 <Stack.Screen name="Welcome" component={Welcome}/>
                 <Stack.Screen name="Login" component={Login}/>
                 <Stack.Screen name="OTPVerification" component={OTPVerification}/>
