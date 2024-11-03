@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "Barba",
-    "slug": "Barba",
+    "name": "Calko",
+    "slug": "Calko",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
@@ -22,7 +22,11 @@
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#FB9400"
       },
-      "package": "com.herus.nikara"
+      "package": "com.herus.calko",
+      "permissions": [
+        "INTERNET",
+        "ACCESS_NETWORK_STATE"
+      ]
     },
     "web": {
       "favicon": "./assets/images/favicon.png"
