@@ -18,6 +18,7 @@ export const getJWT = async () => {
   
   try {
     const token = await AsyncStorage.getItem('jwt');
+    console.log(token)
     return token;
     
   } catch (error) {
@@ -44,12 +45,11 @@ export const LoginFunc = async (username, password) => {
       headers: {'Accept': 'application/json', 'Content-Type': 'application/json'},
       body: JSON.stringify({username, password}),
     });
-    
+    console.log(response)
     // Check for HTTP response status
     if (!response.ok) {
       throw new Error('Network response was not ok');
     }
-
     const data = await response.json();
     return data;
   } catch (error) {

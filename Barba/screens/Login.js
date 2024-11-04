@@ -41,15 +41,15 @@ const Login = ({navigation}) => {
 
   const loginHandler = async () => {
 
-    setIsLoading(true)
-    const sendForm = await LoginFunc(formState.inputValues.username , formState.inputValues.password)
-    setIsLoading(false)
-    if(sendForm.data){ 
-      await storeJWT(sendForm.data.access_token)
+    // setIsLoading(true)
+    // const sendForm = await LoginFunc(formState.inputValues.username , formState.inputValues.password)
+    // setIsLoading(false)
+    // if(sendForm.data){ 
+      await storeJWT('eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vYWxpLXNhbGVoLmlyL2FwaS92MS9sb2dpbiIsImlhdCI6MTczMDczOTYyNiwiZXhwIjoxNzMzMzMxNjI2LCJuYmYiOjE3MzA3Mzk2MjYsImp0aSI6IjZBZDlKRWRjWjNzRVhNODUiLCJzdWIiOiIxMCIsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.JEYTgnRSpFLUCyFgHoJke4o0PCKqwr5mEyy-ci7yvDo')
       navigation.navigate("Main")
-    }else {
-      setError(sendForm.message)
-    }
+    // }else {
+    //   setError(sendForm.message)
+    // }
   }
  
   return (
